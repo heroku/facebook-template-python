@@ -37,40 +37,6 @@ def base64_url_encode(data):
 def simple_dict_serialisation(params):
     return "&".join(map(lambda k: "%s=%s" % (k, params[k]), params.keys()))
 
-def parse_signed_request(signed_request):
-    FBAPI_APP_SECRET = current_app.config['FBAPI_APP_SECRET']
-    encoded_sig, payload = signed_request.split('.', 1)
-
-    sig = base64_url_decode(encoded_sig)
-    data = json.loads(base64_url_decode(payload))
-
-    if data.get('algorithm').upper() != 'HMAC-SHA256':
-        current_app.logger.error('Unknown algorithm for signed request')
-        return None
-    else:
-        expected_sig = hmac.new(FBAPI_APP_SECRET, msg=payload, digestmod=hashlib.sha256).digest()
-
-    if sig == expected_sig:
-        current_app.logger.debug("signed_request: %s" % pformat(data))
-        return data
-    else:
-        current_app.logger.error('Invalid signed request received!')
-        return None
-
-
-def is_valid_signed_request(signed_request):
-    try:
-        return signed_request['user_id'] and signed_request['expires'] and signed_request['oauth_token']
-    except:
-        return False
-
-def is_deauthorize_signed_request(signed_request):
-    try:
-        return signed_request['user_id'] and not signed_request.has_key('oauth_token')
-    except:
-        return False
-
-
 def fbapi_get_string(path, domain=u'graph', params=None, access_token=None, encode_func=urllib.urlencode):
     """Make an API call"""
     if not params:
