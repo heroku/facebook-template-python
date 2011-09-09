@@ -43,7 +43,7 @@ def index():
         
         return render_template('index.html', appId=FBAPI_APP_ID, token=return_val[0], likes=likes, friends=friends, photos=photos, app=app, me=me)
     else:
-        return redirect(oauth_login_url(next_url='http://127.0.0.1:5000'))
+        return redirect(oauth_login_url(next_url=request.host))
          
 
 

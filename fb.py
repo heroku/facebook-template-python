@@ -68,7 +68,7 @@ def fbapi_auth(code):
     """
     returns (access_token, expires)
     """
-    FBAPI_APP_URI = os.environ.get('REDIRECT_URI', 'http://127.0.0.1:5000/')
+    FBAPI_APP_URI = request.host
     FBAPI_APP_ID = os.environ.get('FACEBOOK_APP_ID', '236467589732605')
     FBAPI_APP_SECRET = os.environ.get('FACEBOOK_SECRET', 'fbb1c9f9335789cebc03ad654425d2d9')
     
