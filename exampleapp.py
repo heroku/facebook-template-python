@@ -8,6 +8,7 @@ FBAPI_APP_ID = os.environ.get('FACEBOOK_APP_ID')
 
 def oauth_login_url(preserve_path=True, next_url=None):
     fb_login_uri = "https://www.facebook.com/dialog/oauth?client_id=%s&redirect_uri=%s" % (app.config['FBAPI_APP_ID'], 'https://' + request.host)
+    print fb_login_uri
     if app.config['FBAPI_SCOPE']:
         fb_login_uri += "&scope=%s" % ",".join(app.config['FBAPI_SCOPE'])
     return fb_login_uri
@@ -74,7 +75,6 @@ app.config.from_object('conf.Config')
 
 @app.route('/')
 def index():
-    print request.headers
     if request.args.get('code', None):
         access_token = fbapi_auth(request.args.get('code'))[0]
         
@@ -93,6 +93,7 @@ def index():
 
         return render_template('index.html', appId=FBAPI_APP_ID, token=access_token, likes=likes, friends=friends, photos=photos, app_friends=app_friends, app=app, me=me, POST_TO_WALL=POST_TO_WALL, SEND_TO=SEND_TO)
     else:
+        print oauth_login_url(next_url='https://' + request.host)
         return redirect(oauth_login_url(next_url='https://' + request.host))
     
 @app.route('/close/')
