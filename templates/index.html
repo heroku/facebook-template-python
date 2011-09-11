@@ -56,7 +56,7 @@
               </a>
             </li>
             <li>
-              <a href="#" class="facebook-button speech-bubble" onclick="popup('<?php echo $send_url ?>', 'Send', 580, 400);">
+				<a href="#" class="facebook-button speech-bubble" onclick="popup('{{SEND_TO}}', 'Send', 580, 400);">
                 <span class="speech-bubble">Send to Friends</span>
               </a>
             </li>
@@ -110,6 +110,11 @@
       <div class="list">
         <h3>Friends using this app</h3>
         <ul class="friends">
+			{% for friend in app_friends %}
+				<li style="background-image: url('{{friend.pic_square}}');">
+				<a href="#" onclick="window.open('http://www.facebook.com/{{friend.id}}')">{{friend.name}}</a>
+				</li>
+			{% endfor %}
         </ul>
           
         </ul>
