@@ -74,7 +74,8 @@ app.config.from_object(__name__)
 app.config.from_object('conf.Config')
 
 def get_home():
-    return request.X-Forwarded-Proto + request.host + '/'
+    print request
+    return request['X-Forwarded-Proto'] + request.host + '/'
 
 @app.route('/')
 def index():
