@@ -44,7 +44,7 @@ def fbapi_get_string(path, domain=u'graph', params=None, access_token=None, enco
 def fbapi_auth(code):
     
     params = {'client_id':app.config['FBAPI_APP_ID'],
-              'redirect_uri':app.config['FBAPI_APP_URI'],
+              'redirect_uri':'http://' + request.host,
               'client_secret':app.config['FBAPI_APP_SECRET'],
               'code':code}
     
