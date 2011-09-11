@@ -7,8 +7,7 @@ import os, os.path
 FBAPI_APP_ID = os.environ.get('FACEBOOK_APP_ID')
 
 def oauth_login_url(preserve_path=True, next_url=None):
-    fb_login_uri = "https://www.facebook.com/dialog/oauth?client_id=%s&redirect_uri=%s" % (app.config['FBAPI_APP_ID'], 'https://' + request.host)
-    print fb_login_uri
+    fb_login_uri = "https://www.facebook.com/dialog/oauth?client_id=%s&redirect_uri=%s" % (app.config['FBAPI_APP_ID'], get_home())
     if app.config['FBAPI_SCOPE']:
         fb_login_uri += "&scope=%s" % ",".join(app.config['FBAPI_SCOPE'])
     return fb_login_uri
@@ -40,7 +39,7 @@ def fbapi_get_string(path, domain=u'graph', params=None, access_token=None, enco
 
 def fbapi_auth(code):
     params = {'client_id':app.config['FBAPI_APP_ID'],
-              'redirect_uri':'https://' + request.host,
+              'redirect_uri':get_home(),
               'client_secret':app.config['FBAPI_APP_SECRET'],
               'code':code}
     
@@ -74,8 +73,7 @@ app.config.from_object(__name__)
 app.config.from_object('conf.Config')
 
 def get_home():
-    print request.headers
-    return request.headers['X-Forwarded-Proto'] + request.host + '/'
+    return request.headers['X-Forwarded-Proto'] + '://' + request.host + '/'
 
 @app.route('/')
 def index():
@@ -89,17 +87,17 @@ def index():
         friends=fb_call('me/friends', args={'access_token': access_token, 'limit': 3})
         photos=fb_call('me/photos', args={'access_token': access_token, 'limit': 11})
         
-        redir = 'https://' + request.host + '/close/'
+        redir = get_home() + 'close/'
         POST_TO_WALL = "https://www.facebook.com/dialog/feed?redirect_uri=%s&display=popup&app_id=%s" % (redir, FBAPI_APP_ID)
         
         app_friends = fql("SELECT uid, name, is_app_user, pic_square FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND is_app_user = 1", access_token)
 
-        SEND_TO = 'https://www.facebook.com/dialog/send?redirect_uri=%s&display=popup&app_id=%s&link=%s' % (redir, FBAPI_APP_ID, 'https://' + request.host)
+        SEND_TO = 'https://www.facebook.com/dialog/send?redirect_uri=%s&display=popup&app_id=%s&link=%s' % (redir, FBAPI_APP_ID, get_home())
 
         return render_template('index.html', appId=FBAPI_APP_ID, token=access_token, likes=likes, friends=friends, photos=photos, app_friends=app_friends, app=app, me=me, POST_TO_WALL=POST_TO_WALL, SEND_TO=SEND_TO)
     else:
-        print oauth_login_url(next_url='https://' + request.host)
-        return redirect(oauth_login_url(next_url='https://' + request.host))
+        print oauth_login_url(next_url=get_home())
+        return redirect(oauth_login_url(next_url=get_home()))
     
 @app.route('/close/')
 def close():
