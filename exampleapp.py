@@ -9,7 +9,7 @@ FQL_URL = 'https://api.facebook.com/method/fql.query?format=json&%s'
 FBAPI_APP_ID = os.environ.get('FACEBOOK_APP_ID')
 
 def oauth_login_url(preserve_path=True, next_url=None):
-    redirect_uri = 'http://' + request.host
+    redirect_uri = 'http://' + request.host + '/'
     
     fb_login_uri = "https://www.facebook.com/dialog/oauth?client_id=%s&redirect_uri=%s" % (app.config['FBAPI_APP_ID'], redirect_uri)
     if app.config['FBAPI_SCOPE']:
@@ -45,7 +45,7 @@ def fbapi_get_string(path, domain=u'graph', params=None, access_token=None, enco
 def fbapi_auth(code):
     
     params = {'client_id':app.config['FBAPI_APP_ID'],
-              'redirect_uri':'http://' + request.host,
+              'redirect_uri':'http://' + request.host + '/',
               'client_secret':app.config['FBAPI_APP_SECRET'],
               'code':code}
     
