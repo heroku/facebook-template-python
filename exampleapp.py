@@ -4,8 +4,6 @@ import simplejson as json
 import urllib, urllib2
 import os, os.path
 
-FB_URL = 'https://graph.facebook.com/%s'
-FQL_URL = 'https://api.facebook.com/method/fql.query?format=json&%s'
 FBAPI_APP_ID = os.environ.get('FACEBOOK_APP_ID')
 
 def oauth_login_url(preserve_path=True, next_url=None):
@@ -40,7 +38,6 @@ def fbapi_get_string(path, domain=u'graph', params=None, access_token=None, enco
     return result
 
 def fbapi_auth(code):
-    
     params = {'client_id':app.config['FBAPI_APP_ID'],
               'redirect_uri':request.url_root,
               'client_secret':app.config['FBAPI_APP_SECRET'],
@@ -78,22 +75,22 @@ app.config.from_object('conf.Config')
 @app.route('/')
 def index():
     if request.args.get('code', None):
-        return_val = fbapi_auth(request.args.get('code'))
+        access_token = fbapi_auth(request.args.get('code'))[0]
         
-        me = fb_call('me', args={'access_token': return_val[0]})
-        app=fb_call(FBAPI_APP_ID, args={'access_token': return_val[0]})
-        likes=fb_call('me/likes', args={'access_token': return_val[0], 'limit': 11})
-        friends=fb_call('me/friends', args={'access_token': return_val[0], 'limit': 3})
-        photos=fb_call('me/photos', args={'access_token': return_val[0], 'limit': 11})
+        me = fb_call('me', args={'access_token': access_token})
+        app=fb_call(FBAPI_APP_ID, args={'access_token': access_token})
+        likes=fb_call('me/likes', args={'access_token': access_token, 'limit': 11})
+        friends=fb_call('me/friends', args={'access_token': access_token, 'limit': 3})
+        photos=fb_call('me/photos', args={'access_token': access_token, 'limit': 11})
         
         redir = request.url_root + 'close/'
         POST_TO_WALL = "https://www.facebook.com/dialog/feed?redirect_uri=%s&display=popup&app_id=%s" % (redir, FBAPI_APP_ID)
         
-        app_friends = fql("SELECT uid, name, is_app_user, pic_square FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND is_app_user = 1", return_val[0])
+        app_friends = fql("SELECT uid, name, is_app_user, pic_square FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND is_app_user = 1", access_token)
 
         SEND_TO = 'https://www.facebook.com/dialog/send?redirect_uri=%s&display=popup&app_id=%s&link=%s' % (redir, FBAPI_APP_ID, request.url_root)
 
-        return render_template('index.html', appId=FBAPI_APP_ID, token=return_val[0], likes=likes, friends=friends, photos=photos, app_friends=app_friends, app=app, me=me, POST_TO_WALL=POST_TO_WALL, SEND_TO=SEND_TO)
+        return render_template('index.html', appId=FBAPI_APP_ID, token=access_token, likes=likes, friends=friends, photos=photos, app_friends=app_friends, app=app, me=me, POST_TO_WALL=POST_TO_WALL, SEND_TO=SEND_TO)
     else:
         return redirect(oauth_login_url(next_url=request.url_root))
     
