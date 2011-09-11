@@ -9,7 +9,7 @@ FQL_URL = 'https://api.facebook.com/method/fql.query?format=json&%s'
 FBAPI_APP_ID = os.environ.get('FACEBOOK_APP_ID', '148166728607324')
 
 def oauth_login_url(preserve_path=True, next_url=None):
-    redirect_uri = app.config['FBAPI_APP_URI'] + request.path[1:] 
+    redirect_uri = 'http://' + request.host + '/'
     
     fb_login_uri = "https://www.facebook.com/dialog/oauth?client_id=%s&redirect_uri=%s" % (app.config['FBAPI_APP_ID'], redirect_uri)
     if app.config['FBAPI_SCOPE']:
