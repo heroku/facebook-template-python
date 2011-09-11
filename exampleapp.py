@@ -73,8 +73,12 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 app.config.from_object('conf.Config')
 
+def get_home():
+    return request.X-Forwarded-Proto + request.host + '/'
+
 @app.route('/')
 def index():
+    print get_home()
     if request.args.get('code', None):
         access_token = fbapi_auth(request.args.get('code'))[0]
         
