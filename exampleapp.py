@@ -6,7 +6,7 @@ import os, os.path
 
 FB_URL = 'https://graph.facebook.com/%s'
 FQL_URL = 'https://api.facebook.com/method/fql.query?format=json&%s'
-FBAPI_APP_ID = os.environ.get('FACEBOOK_APP_ID', '148166728607324')
+FBAPI_APP_ID = os.environ.get('FACEBOOK_APP_ID')
 
 def oauth_login_url(preserve_path=True, next_url=None):
     redirect_uri = 'http://' + request.host
