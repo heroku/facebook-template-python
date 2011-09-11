@@ -37,6 +37,7 @@ def fbapi_get_string(path, domain=u'graph', params=None, access_token=None, enco
     url = u'https://' + domain + u'.facebook.com' + path
     params_encoded = encode_func(params)
     url = url + params_encoded
+    print url
     result = urllib2.urlopen(url).read()
     
     return result
