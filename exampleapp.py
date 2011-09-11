@@ -9,9 +9,7 @@ FQL_URL = 'https://api.facebook.com/method/fql.query?format=json&%s'
 FBAPI_APP_ID = os.environ.get('FACEBOOK_APP_ID')
 
 def oauth_login_url(preserve_path=True, next_url=None):
-    redirect_uri = 'http://' + request.host + '/'
-    
-    fb_login_uri = "https://www.facebook.com/dialog/oauth?client_id=%s&redirect_uri=%s" % (app.config['FBAPI_APP_ID'], redirect_uri)
+    fb_login_uri = "https://www.facebook.com/dialog/oauth?client_id=%s&redirect_uri=%s" % (app.config['FBAPI_APP_ID'], request.url_root)
     if app.config['FBAPI_SCOPE']:
         fb_login_uri += "&scope=%s" % ",".join(app.config['FBAPI_SCOPE'])
     return fb_login_uri
@@ -45,7 +43,7 @@ def fbapi_get_string(path, domain=u'graph', params=None, access_token=None, enco
 def fbapi_auth(code):
     
     params = {'client_id':app.config['FBAPI_APP_ID'],
-              'redirect_uri':'http://' + request.host + '/',
+              'redirect_uri':request.url_root,
               'client_secret':app.config['FBAPI_APP_SECRET'],
               'code':code}
     
@@ -100,16 +98,16 @@ def index():
         url = FB_URL % ('me/photos?access_token=%s&limit=11' % return_val[0])
         photos  = json.loads(urllib2.urlopen(url).read())
         
-        redir = 'http://' + request.host + '/close/'
+        redir = request.url_root + 'close/'
         POST_TO_WALL = "https://www.facebook.com/dialog/feed?redirect_uri=%s&display=popup&app_id=%s" % (redir, FBAPI_APP_ID)
         
         app_friends = fql("SELECT uid, name, is_app_user, pic_square FROM user WHERE uid in (SELECT uid2 FROM friend WHERE uid1 = me()) AND is_app_user = 1", return_val[0])
 
-        SEND_TO = 'https://www.facebook.com/dialog/send?redirect_uri=%s&display=popup&app_id=%s&link=%s' % (redir, FBAPI_APP_ID, 'http://' + request.host)
+        SEND_TO = 'https://www.facebook.com/dialog/send?redirect_uri=%s&display=popup&app_id=%s&link=%s' % (redir, FBAPI_APP_ID, request.url_root)
 
         return render_template('index.html', appId=FBAPI_APP_ID, token=return_val[0], likes=likes, friends=friends, photos=photos, app_friends=app_friends, app=app, me=me, POST_TO_WALL=POST_TO_WALL, SEND_TO=SEND_TO)
     else:
-        return redirect(oauth_login_url(next_url='http://' + request.host))
+        return redirect(oauth_login_url(next_url=request.url_root))
     
 @app.route('/close/')
 def close():
