@@ -68,7 +68,7 @@ def fql(fql, token, args=None):
     return json.loads(urllib2.urlopen("https://api.facebook.com/method/fql.query?" + urllib.urlencode(args)).read())
 
 def fb_call(call, args=None):
-    return json.loads(urllib2.urlopen("https://api.facebook.com/" + call + '?' + urllib.urlencode(args)).read())
+    return json.loads(urllib2.urlopen("https://graph.facebook.com/" + call + '?' + urllib.urlencode(args)).read())
 
 
 app = Flask(__name__)
@@ -81,27 +81,10 @@ def index():
         return_val = fbapi_auth(request.args.get('code'))
         
         me = fb_call('me', args={'access_token': return_val[0]})
-        #url = FB_URL % ('me?access_token=%s' % return_val[0])
-        #me = json.loads(urllib2.urlopen(url).read())
-        
         app=fb_call(FBAPI_APP_ID, args={'access_token': return_val[0]})
-
-        #url = FB_URL % ('%s?access_token=%s' % (FBAPI_APP_ID,return_val[0]))
-        #app = json.loads(urllib2.urlopen(url).read())
-        
         likes=fb_call('me/likes', args={'access_token': return_val[0], 'limit': 11})
-        
-        #url = FB_URL % ('me/likes?access_token=%s&limit=11' % return_val[0])
-        #likes = json.loads(urllib2.urlopen(url).read())
-        
         friends=fb_call('me/friends', args={'access_token': return_val[0], 'limit': 3})
-        
-        #url = FB_URL % ('me/friends?access_token=%s&limit=3' % return_val[0])
-        #friends = json.loads(urllib2.urlopen(url).read())
-        
         photos=fb_call('me/photos', args={'access_token': return_val[0], 'limit': 11})
-        #url = FB_URL % ('me/photos?access_token=%s&limit=11' % return_val[0])
-        #photos  = json.loads(urllib2.urlopen(url).read())
         
         redir = request.url_root + 'close/'
         POST_TO_WALL = "https://www.facebook.com/dialog/feed?redirect_uri=%s&display=popup&app_id=%s" % (redir, FBAPI_APP_ID)
