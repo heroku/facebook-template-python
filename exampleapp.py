@@ -1,5 +1,5 @@
 from flask import Flask, request, redirect, render_template
-import base64, hashlib, hmac
+import base64
 import simplejson as json
 import urllib, urllib2
 import os, os.path
