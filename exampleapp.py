@@ -66,7 +66,7 @@ def fbapi_get_application_access_token(id):
 
     token = token.split('=')[-1]
     if not str(id) in token:
-        current_app.logger.error('Token mismatch: %s not in %s', id, token)
+        print 'Token mismatch: %s not in %s' % (id, token)
     return token
 
 def fql(fql, token, args=None):
