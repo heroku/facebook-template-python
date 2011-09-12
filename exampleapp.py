@@ -1,10 +1,14 @@
-from flask import Flask, request, redirect, render_template
 import base64
+import os
+import os.path
 import simplejson as json
-import urllib, urllib2
-import os, os.path
+import urllib
+import urllib2
+
+from flask import Flask, request, redirect, render_template
 
 FBAPI_APP_ID = os.environ.get('FACEBOOK_APP_ID')
+
 
 def oauth_login_url(preserve_path=True, next_url=None):
     fb_login_uri = ("https://www.facebook.com/dialog/oauth"
@@ -15,11 +19,14 @@ def oauth_login_url(preserve_path=True, next_url=None):
         fb_login_uri += "&scope=%s" % ",".join(app.config['FBAPI_SCOPE'])
     return fb_login_uri
 
+
 def simple_dict_serialisation(params):
     return "&".join(map(lambda k: "%s=%s" % (k, params[k]), params.keys()))
 
+
 def base64_url_encode(data):
     return base64.urlsafe_b64encode(data).rstrip('=')
+
 
 def fbapi_get_string(path, domain=u'graph', params=None, access_token=None,
                      encode_func=urllib.urlencode):
@@ -41,11 +48,12 @@ def fbapi_get_string(path, domain=u'graph', params=None, access_token=None,
 
     return result
 
+
 def fbapi_auth(code):
-    params = {'client_id':app.config['FBAPI_APP_ID'],
-              'redirect_uri':get_home(),
-              'client_secret':app.config['FBAPI_APP_SECRET'],
-              'code':code}
+    params = {'client_id': app.config['FBAPI_APP_ID'],
+              'redirect_uri': get_home(),
+              'client_secret': app.config['FBAPI_APP_SECRET'],
+              'code': code}
 
     result = fbapi_get_string(path=u"/oauth/access_token?", params=params,
                               encode_func=simple_dict_serialisation)
@@ -69,12 +77,16 @@ def fbapi_get_application_access_token(id):
         print 'Token mismatch: %s not in %s' % (id, token)
     return token
 
+
 def fql(fql, token, args=None):
-    if not args: args = {}
+    if not args:
+        args = {}
+
     args["query"], args["format"], args["access_token"] = fql, "json", token
     return json.loads(
         urllib2.urlopen("https://api.facebook.com/method/fql.query?" +
                         urllib.urlencode(args)).read())
+
 
 def fb_call(call, args=None):
     return json.loads(urllib2.urlopen("https://graph.facebook.com/" + call +
@@ -84,8 +96,10 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 app.config.from_object('conf.Config')
 
+
 def get_home():
     return 'https://' + request.host + '/'
+
 
 @app.route('/')
 def index():
@@ -123,6 +137,7 @@ def index():
     else:
         print oauth_login_url(next_url=get_home())
         return redirect(oauth_login_url(next_url=get_home()))
+
 
 @app.route('/close/')
 def close():
