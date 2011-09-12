@@ -94,13 +94,13 @@ def index():
         access_token = fbapi_auth(request.args.get('code'))[0]
 
         me = fb_call('me', args={'access_token': access_token})
-        app=fb_call(FBAPI_APP_ID, args={'access_token': access_token})
-        likes=fb_call('me/likes',
-                      args={'access_token': access_token, 'limit': 11})
-        friends=fb_call('me/friends',
-                        args={'access_token': access_token, 'limit': 3})
-        photos=fb_call('me/photos',
-                       args={'access_token': access_token, 'limit': 11})
+        app = fb_call(FBAPI_APP_ID, args={'access_token': access_token})
+        likes = fb_call('me/likes',
+                        args={'access_token': access_token, 'limit': 11})
+        friends = fb_call('me/friends',
+                          args={'access_token': access_token, 'limit': 3})
+        photos = fb_call('me/photos',
+                         args={'access_token': access_token, 'limit': 11})
 
         redir = get_home() + 'close/'
         POST_TO_WALL = ("https://www.facebook.com/dialog/feed?redirect_uri=%s&"
