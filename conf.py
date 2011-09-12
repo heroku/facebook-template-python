@@ -1,5 +1,5 @@
-import os, os.path
-import urlparse
+import os
+
 
 class Config(object):
     DEBUG = True
