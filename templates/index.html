@@ -112,7 +112,7 @@
         <ul class="friends">
 			{% for friend in app_friends %}
 				<li style="background-image: url('{{friend.pic_square}}');">
-				<a href="#" onclick="window.open('http://www.facebook.com/{{friend.id}}')">{{friend.name}}</a>
+				<a href="#" onclick="window.open('http://www.facebook.com/{{friend.uid}}')">{{friend.name}}</a>
 				</li>
 			{% endfor %}
         </ul>
