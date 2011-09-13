@@ -98,7 +98,7 @@ app.config.from_object('conf.Config')
 
 
 def get_home():
-    return 'http://' + request.host + '/'
+    return 'https://' + request.host + '/'
 
 
 @app.route('/')
