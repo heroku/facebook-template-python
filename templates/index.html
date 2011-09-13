@@ -17,21 +17,31 @@
     <meta content="" property="og:site_name" />
     <meta content="{{appId}}" property="fb:app_id" />
     <script type="text/javascript">function popup(pageURL, title,w,h) { var left = (screen.width/2)-(w/2); var top = (screen.height/2)-(h/2); var targetWin = window.open( pageURL, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left ); }</script>
+    <!--[if IE]>
+      <script>
+        var tags = ['header', 'section'];
+        while(tags.length)
+          document.createElement(tags.pop());
+      </script>
+    <![endif]-->
   </head>
   <body>
     <header class="clearfix">
       <!-- By passing a valid access token here, we are able to display -->
       <!-- the user's images without having to download or prepare -->
       <!-- them ahead of time -->
-      <a href="#" onclick="window.open('http://www.facebook.com/{{me.id}}')">
-        <img height="64" src="https://graph.facebook.com/me/picture?type=large&amp;access_token={{token}}" />
-      </a>
+      <p id="picture">
+        <img
+          src="https://graph.facebook.com/me/picture?type=large&access_token={{token}}"
+          height="64">
+      </p>
       <div>
-        <h1>Welcome,
-        <strong>{{me.name}}</strong></h1>
-        <p class="tagline">This app is named {{app.name}}</p>
+        <h1>Welcome, <strong>{{me.name}}</strong></h1>
+        <p class="tagline">
+          This is your app
+          <a href="{{app.link}}">{{app.name}}</a>
+        </p>
         <div id="share-app">
-          <p>Share your app:</p>
           <ul>
             <li>
               <a class="facebook-button" href="#" onclick="popup('{{POST_TO_WALL}}', 'Post to Wall', 580, 400);">
@@ -50,38 +60,46 @@
     <section id="get-started">
       <p>Welcome to your Facebook app, running on
       <span>heroku</span>!</p>
-      <a class="button" href="http://devcenter.heroku.com/articles/facebook">Learn how to edit this app</a>
+      <a class="button" href="http://devcenter.heroku.com/articles/facebook">Learn How to Edit This App</a>
     </section>
     <section class="clearfix" id="samples">
       <h1>Examples of the Facebook Graph API</h1>
       <div class="list">
         <h3>A few of your friends</h3>
         <ul class="friends">{% for friend in friends.data %}
-        <li style="background-image: url('https://graph.facebook.com/{{friend.id}}/picture');">
-          <a href="#" onclick="window.open('http://www.facebook.com/{{friend.id}}')">{{friend.name}}</a>
+        <li>
+          <img src="https://graph.facebook.com/{{friend.id}}/picture" alt="{{friend.name}}">
+          {{friend.name}}
         </li>{% endfor %}</ul>
       </div>
       <div class="list inline">
         <h3>Recent photos</h3>
-        <ul class="photos">{% for photo in photos.data %}
-        <li>
-          <a href="#" onclick="window.open('http://www.facebook.com/{{photo.id}}')">
-            <img src="{{photo.source}}" width="163" />
-          </a>
-        </li>{% endfor %}</ul>
+        <ul class="photos">
+          {% for photo in photos.data %}
+            {% if loop.index0%4 == 0 %}
+          <li class="first-column">
+            {% else %}
+          <li>
+            {% endif %}
+            <img src="{{photo.source}}" alt="{{photo.name}}">
+          </li>
+          {% endfor %}
+        </ul>
       </div>
       <div class="list">
         <h3>Things you like</h3>
         <ul class="things">{% for like in likes.data %}
         <li>
-          <a href="#" onclick="window.open('http://www.facebook.com/{{like.id}}')">{{like.name}}</a>
+          <img src="https://graph.facebook.com/{{like.id}}/picture?type=square" alt="{{like.name}}">
+          {{like.name}}
         </li>{% endfor %}</ul>
       </div>
       <div class="list">
         <h3>Friends using this app</h3>
         <ul class="friends">{% for friend in app_friends %}
         <li style="background-image: url('{{friend.pic_square}}');">
-          <a href="#" onclick="window.open('http://www.facebook.com/{{friend.uid}}')">{{friend.name}}</a>
+          <img src="https://graph.facebook.com/{{friend.uid}}/picture?type=square" alt="{{friend.name}}">
+          {{friend.name}}
         </li>{% endfor %}</ul>
       </div>
     </section>
