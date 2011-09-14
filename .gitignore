@@ -1,9 +1,1 @@
-bin
-build
-include
-lib
-.Python
-*.pyc
-*.db
-*.swp
-
+.env
