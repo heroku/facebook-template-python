@@ -16,10 +16,10 @@ Set up a Virtualenv and install dependencies::
     pip install -r requirements.txt
 
 `Create an app on Facebook`_ and set the Website URL to
-`http://localhost:5000/`.
+``http://localhost:5000/``.
 
 Copy the App ID and Secret from the Facebook app settings page into
-your `.env`::
+your ``.env``::
 
     echo FACEBOOK_APP_ID=12345 >> .env
     echo FACEBOOK_SECRET=abcde >> .env
@@ -36,7 +36,7 @@ Deploy to Heroku via Facebook integration
 
 The easiest way to deploy is to create an app on Facebook and click
 Cloud Services -> Get Started, then choose Python from the dropdown.
-You can then `git clone` the resulting app from Heroku.
+You can then ``git clone`` the resulting app from Heroku.
 
 Deploy to Heroku directly
 -------------------------
