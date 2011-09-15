@@ -101,7 +101,7 @@ def get_home():
     return 'https://' + request.host + '/'
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
     print get_home()
     if request.args.get('code', None):
@@ -139,7 +139,7 @@ def index():
         return redirect(oauth_login_url(next_url=get_home()))
 
 
-@app.route('/close/')
+@app.route('/close/', methods=['GET', 'POST'])
 def close():
     return render_template('close.html')
 
