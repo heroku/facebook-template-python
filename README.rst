@@ -11,8 +11,8 @@ Run locally
 
 Set up a Virtualenv and install dependencies::
 
-    virtualenv --no-site-packages .
-    source bin/activate
+    virtualenv --no-site-packages env/
+    source env/bin/activate
     pip install -r requirements.txt
 
 `Create an app on Facebook`_ and set the Website URL to
