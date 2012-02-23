@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:fb="http://ogp.me/ns/fb#" lang="en">
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes" />
+
     <!-- We get the name of the app out of the information fetched -->
     <title>{{app.name}}</title>
-    <link href="static/screen.css" media="screen" rel="stylesheet" />
+    <link rel="stylesheet" href="static/screen.css" media="Screen" type="text/css" />
+    <link rel="stylesheet" href="static/mobile.css" media="handheld, only screen and (max-width: 480px), only screen and (max-device-width: 480px)" type="text/css" />
     <!-- These are Open Graph tags.  They add meta data to your  -->
     <!-- site that facebook uses when your content is shared     -->
     <!-- over facebook.  You should fill these tags in with      -->
