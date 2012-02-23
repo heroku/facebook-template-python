@@ -134,10 +134,12 @@ def index():
                    'redirect_uri=%s&display=popup&app_id=%s&link=%s'
                    % (redir, FBAPI_APP_ID, get_home()))
 
+        url = request.url
+
         return render_template(
             'index.html', appId=FBAPI_APP_ID, token=access_token, likes=likes,
             friends=friends, photos=photos, app_friends=app_friends, app=app,
-            me=me, POST_TO_WALL=POST_TO_WALL, SEND_TO=SEND_TO)
+            me=me, POST_TO_WALL=POST_TO_WALL, SEND_TO=SEND_TO, url=url)
     else:
         print oauth_login_url(next_url=get_home())
         return redirect(oauth_login_url(next_url=get_home()))
