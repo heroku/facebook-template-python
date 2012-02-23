@@ -88,11 +88,11 @@ def fql(fql, token, args=None):
         args = {}
 
     args["query"], args["format"], args["access_token"] = fql, "json", token
-    return json.loads(
-        url = "https://api.facebook.com/method/fql.query"
 
-        r = requests.get(url, args=args)
-        return r.content
+    url = "https://api.facebook.com/method/fql.query"
+
+    r = requests.get(url, args=args)
+    return json.loads(r.content)
 
 
 def fb_call(call, args=None):
