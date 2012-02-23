@@ -92,13 +92,13 @@ def fql(fql, token, args=None):
 
     url = "https://api.facebook.com/method/fql.query"
 
-    r = requests.get(url, args=args)
+    r = requests.get(url, params=args)
     return json.loads(r.content)
 
 
 def fb_call(call, args=None):
     url = "https://graph.facebook.com/{0}".format(call)
-    r = requests.get(url, args=args)
+    r = requests.get(url, params=args)
     return json.loads(r.content)
 
 app = Flask(__name__)
