@@ -144,7 +144,7 @@ def index():
 
 @app.route('/channel.html', methods=['GET', 'POST'])
 def get_channel():
-    return render_template('channel.html.html')
+    return render_template('channel.html')
 
 
 @app.route('/close/', methods=['GET', 'POST'])
