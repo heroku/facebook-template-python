@@ -116,7 +116,7 @@ header .tagline {
 }
 
 .facebook-button span {
-  background: url("../images/sprites.png") no-repeat;
+  background: url("images/sprites.png") no-repeat;
   padding: 0 7px 0 21px;
 }
 
@@ -160,7 +160,7 @@ header .tagline {
 /* =get started
 --------------------------------------------- */
 #get-started {
-  background: url("../images/get-started-bg.jpg");
+  background: url("images/get-started-bg.jpg");
   border: 1px solid #353d4f;
   height: 105px;
   text-align: center;
@@ -228,7 +228,7 @@ header .tagline {
 }
 
 #guides ul li a.icon {
-  background: url("../images/sprites.png") no-repeat;
+  background: url("images/sprites.png") no-repeat;
   display: block;
   font-family: "Helvetica Neue", Arial, sans-serif;
   font-size: 14px;
@@ -257,7 +257,7 @@ header .tagline {
 /* =samples
 --------------------------------------------- */
 #samples {
-  background-image: url("../images/samples-bg.png");
+  background-image: url("images/samples-bg.png");
   border-bottom: 1px solid #dadada;
   border-left: 1px solid #b3b3b3;
   border-right: 1px solid #b3b3b3;
@@ -265,7 +265,7 @@ header .tagline {
 }
 
 #samples h3 {
-  background: url("../images/header-sketch.png") no-repeat;
+  background: url("images/header-sketch.png") no-repeat;
   color: #646464;
   font-weight: bold;
   font-size: 11px;
@@ -274,7 +274,7 @@ header .tagline {
 }
 
 #samples ul {
-  background: url("../images/picture-sketch.png") 4px 8px;
+  background: url("images/picture-sketch.png") 4px 8px;
   background-repeat: repeat-y;
   height: 161px;
   overflow: hidden;
