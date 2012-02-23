@@ -5,7 +5,8 @@ import os
 import os.path
 import simplejson as json
 import urllib
-import urllib2
+
+import requests
 
 from flask import Flask, request, redirect, render_template
 
@@ -48,7 +49,7 @@ def fbapi_get_string(path,
     url = u'https://' + domain + u'.facebook.com' + path
     params_encoded = encode_func(params)
     url = url + params_encoded
-    result = urllib2.urlopen(url).read()
+    result = requests.get(url).content
 
     return result
 
@@ -88,13 +89,16 @@ def fql(fql, token, args=None):
 
     args["query"], args["format"], args["access_token"] = fql, "json", token
     return json.loads(
-        urllib2.urlopen("https://api.facebook.com/method/fql.query?" +
-                        urllib.urlencode(args)).read())
+        url = "https://api.facebook.com/method/fql.query"
+
+        r = requests.get(url, args=args)
+        return r.content
 
 
 def fb_call(call, args=None):
-    return json.loads(urllib2.urlopen("https://graph.facebook.com/" + call +
-                                      '?' + urllib.urlencode(args)).read())
+    url = "https://graph.facebook.com/{0}".format(call)
+    r = requests(url, args=args)
+    return json.loads(r.content)
 
 app = Flask(__name__)
 app.config.from_object(__name__)
