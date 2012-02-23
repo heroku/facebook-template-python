@@ -142,6 +142,10 @@ def index():
         print oauth_login_url(next_url=get_home())
         return redirect(oauth_login_url(next_url=get_home()))
 
+@app.route('/channel.html', methods=['GET', 'POST'])
+def get_channel():
+    return render_template('channel.html.html')
+
 
 @app.route('/close/', methods=['GET', 'POST'])
 def close():
