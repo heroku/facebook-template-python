@@ -12,6 +12,7 @@ from flask import Flask, request, redirect, render_template
 
 FBAPI_APP_ID = os.environ.get('FACEBOOK_APP_ID')
 
+requests = requests.session()
 
 def oauth_login_url(preserve_path=True, next_url=None):
     fb_login_uri = ("https://www.facebook.com/dialog/oauth"
@@ -97,7 +98,7 @@ def fql(fql, token, args=None):
 
 def fb_call(call, args=None):
     url = "https://graph.facebook.com/{0}".format(call)
-    r = requests(url, args=args)
+    r = requests.get(url, args=args)
     return json.loads(r.content)
 
 app = Flask(__name__)
