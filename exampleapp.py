@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import base64
 import os
 import os.path
@@ -28,9 +30,11 @@ def base64_url_encode(data):
     return base64.urlsafe_b64encode(data).rstrip('=')
 
 
-def fbapi_get_string(path, domain=u'graph', params=None, access_token=None,
-                     encode_func=urllib.urlencode):
+def fbapi_get_string(path,
+    domain=u'graph', params=None, access_token=None,
+    encode_func=urllib.urlencode):
     """Make an API call"""
+
     if not params:
         params = {}
     params[u'method'] = u'GET'
