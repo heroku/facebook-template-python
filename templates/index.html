@@ -8,6 +8,11 @@
     <title>{{app.name}}</title>
     <link rel="stylesheet" href="static/screen.css" media="Screen" type="text/css" />
     <link rel="stylesheet" href="static/mobile.css" media="handheld, only screen and (max-width: 480px), only screen and (max-device-width: 480px)" type="text/css" />
+
+    <!--[if IEMobile]>
+      <link rel="stylesheet" href="static/mobile.css" media="screen" type="text/css"  />
+    <![endif]-->
+
     <!-- These are Open Graph tags.  They add meta data to your  -->
     <!-- site that facebook uses when your content is shared     -->
     <!-- over facebook.  You should fill these tags in with      -->
@@ -20,6 +25,7 @@
     <meta content="" property="og:site_name" />
     <meta content="{{appId}}" property="fb:app_id" />
     <script type="text/javascript">function popup(pageURL, title,w,h) { var left = (screen.width/2)-(w/2); var top = (screen.height/2)-(h/2); var targetWin = window.open( pageURL, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left ); }</script>
+    <script type="text/javascript" src="/static/jquery-1.7.1.min.js"></script>
     <!--[if IE]>
       <script>
         var tags = ['header', 'section'];
