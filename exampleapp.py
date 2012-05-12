@@ -131,7 +131,8 @@ def get_token():
         encoded_data = c.split('.', 2)
 
         sig = encoded_data[0]
-        data = json.loads(urlsafe_b64decode(str(encoded_data[1])))
+        data = json.loads(urlsafe_b64decode(str(encoded_data[1]) +
+            (64-len(encoded_data[1])%64)*"="))
 
         if not data['algorithm'].upper() == 'HMAC-SHA256':
             raise ValueError('unknown algorithm {0}'.format(data['algorithm']))
