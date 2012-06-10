@@ -201,7 +201,8 @@ def index():
             me=me, POST_TO_WALL=POST_TO_WALL, SEND_TO=SEND_TO, url=url,
             channel_url=channel_url, name=FB_APP_NAME)
     else:
-        return render_template('login.html', app_id=FB_APP_ID, token=access_token, url=request.url, channel_url=channel_url, name=FB_APP_NAME)
+        permission_list = ",".join(app.config['FBAPI_SCOPE'])
+        return render_template('login.html', app_id=FB_APP_ID, token=access_token, url=request.url, channel_url=channel_url, name=FB_APP_NAME, permission_list=permission_list)
 
 @app.route('/channel.html', methods=['GET', 'POST'])
 def get_channel():
