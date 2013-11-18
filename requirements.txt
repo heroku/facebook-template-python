@@ -1,6 +1,8 @@
-Flask==0.7.2
-Jinja2==2.6
-Werkzeug==0.7.1
-simplejson==2.2.1
-wsgiref==0.1.2
-requests==0.10.4
+Flask==0.10.1
+Jinja2==2.7.1
+MarkupSafe==0.18
+Werkzeug==0.9.4
+gunicorn==18.0
+itsdangerous==0.23
+requests==2.0.1
+simplejson==3.3.1
