@@ -6,7 +6,7 @@
   <div id="fb-root"></div>
   <h1>Welcome</h1>
   <div id="login-flow">
-    <fb:login-button perms="email,offline_access" show-faces="true"></fb:login-button>
+    <fb:login-button perms="{{ permission_list }}" show-faces="true"></fb:login-button>
   </div>
 
 {% endblock %}
