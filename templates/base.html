@@ -106,7 +106,7 @@
         // Listen to the auth.login which will be called when the user logs in
         // using the Login button
         FB.Event.subscribe('auth.login', function(response) {
-          // We want to reload the page now so Ruby can read the cookie that the
+          // We want to reload the page now so Python can read the cookie that the
           // Javascript SDK sat. But we don't want to use
           // window.location.reload() because if this is in a canvas there was a
           // post made to this page and a reload will trigger a message to the
